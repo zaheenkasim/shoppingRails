@@ -1,0 +1,66 @@
+<div class="w-full">
+ <div class="flex justify-center m-4">
+  <%# <input type="text"  class="w-full mr-4 max-w-md p-2 border border-gray-300 rounded-md" placeholder="Search..."> %>
+  <%= form_tag(carts_path, method: :get) do %>
+    <div class="flex gap-2">
+      <%= text_field_tag(:query, params[:query], placeholder: "Search by name", class:"w-full mr-4 max-w-md p-2 border border-gray-300 rounded-md") %>
+        <button type="submit"  class="px-4 py-2 ml-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
+        Search
+      </button>
+    </div>
+  <% end %>
+
+</div>
+  <div class="flex gap-3 flex-wrap mt-8" data-controller='search'>
+    <%  @products.each do |item| %>
+      <div class="p-8 ">
+        <div class="bg-white shadow-md rounded-md p-4">
+          <h5 class="text-xl font-semibold mb-2"><%= item.name %></h5>
+          <h6 class="text-sm"><%= item.description %></h6>
+          <p class="text-gray-600"><%= number_to_currency(item.price) %></p>
+          <%= form_with( url: carts_path, method: :post, class: "space-y-4", id: "products-form") do |form| %>
+            <%= form.hidden_field "product_id", value: item.id %>
+            <div class="flex items-center justify-center">
+                <button type="button" class="py-1 px-3 bg-gray-300 text-white rounded-l decrement-btn">-</button>
+                <input type="text" name="quantity" class="w-12 h-8 text-xs font-medium border border-gray-300 rounded text-center mx-2 quantity-input" value="1">
+                <button type="button" class="py-1 px-3 bg-gray-300 text-white rounded-r increment-btn">+</button>
+            </div>
+
+            
+            <button type="submit" class="block mx-auto mt-4 bg-blue-500 text-sm text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">Add to cart</button>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const decrementBtns = document.querySelectorAll('.decrement-btn');
+  const incrementBtns = document.querySelectorAll('.increment-btn');
+  const quantityInputs = document.querySelectorAll('.quantity-input');
+
+  decrementBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      let input = btn.nextElementSibling;
+      let currentValue = parseInt(input.value);
+      if (currentValue > 1) {
+        input.value = currentValue - 1;
+      }
+    });
+  });
+
+  incrementBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      let input = btn.previousElementSibling;
+      let currentValue = parseInt(input.value);
+      input.value = currentValue + 1;
+    });
+  });
+});
+
+ document.getElementById("cart").innerText=`cart <%= @total_count%>`
+
+</script>

@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .body-small {
+        @apply font-normal text-sm leading-5 not-italic text-gray-500 font-inter
+    }
+
+    .body-base {
+        @apply font-normal text-base leading-6 not-italic text-gray-700 font-inter
+    }
+
+    .body-xs {
+        @apply font-normal text-xs leading-4 not-italic text-gray-500 font-inter
+    }
+
+    .h1 {
+        @apply font-semibold text-2xl leading-9 not-italic font-inter
+    }
+
+    .h2 {
+        @apply font-medium text-lg leading-7 not-italic font-inter
+    }
+}
+
+@layer base {
+    a {
+        @apply underline text-indigo-600 hover:text-blue-800
+     }
+  }
